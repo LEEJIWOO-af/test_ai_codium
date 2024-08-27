@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.aitest2.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -18,7 +16,16 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.button.setOnClickListener {
-            Toast.makeText(this, "Hello, World!", Toast.LENGTH_SHORT).show()
+            try {
+                val random = (1..20).random()
+                if (random in 11..20) {
+                    throw Exception("Error")
+                } else {
+                    Toast.makeText(this, "Random number: $random", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
