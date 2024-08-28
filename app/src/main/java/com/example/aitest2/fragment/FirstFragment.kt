@@ -1,10 +1,12 @@
 package com.example.aitest2.fragment
 
+import AppInfoAdapter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.aitest2.databinding.FragmentFirstBinding
 
 class FirstFragment : Fragment() {
@@ -34,8 +36,8 @@ class FirstFragment : Fragment() {
                 "Label: $label",
                 "Icon: ${icon.toString()}" // Note: Icon is a Drawable, so we convert it to a string
             )
-
-            binding.textView.text = infoList.joinToString(separator = "\n")
+            binding.recyclerView.adapter =  AppInfoAdapter(infoList)
+            binding.recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         }
 
         return binding.root
