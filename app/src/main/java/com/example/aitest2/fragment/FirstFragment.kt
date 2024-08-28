@@ -8,20 +8,36 @@ import android.view.ViewGroup
 import com.example.aitest2.databinding.FragmentFirstBinding
 
 class FirstFragment : Fragment() {
-    private var _binding: FragmentFirstBinding? = null
+    private lateinit var binding: FragmentFirstBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+    ): View {
+        binding = FragmentFirstBinding.inflate(inflater, container, false)
 
-        // Inflate the layout for this fragment
-        return _binding?.root
-    }
+        binding.btnGetInfo.setOnClickListener {
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+            val context = activity?.applicationContext ?: return@setOnClickListener
 
+            val packageManager = context.packageManager
+
+            val versionName = packageManager.getPackageInfo(context.packageName, 0).versionName
+            val versionCode = packageManager.getPackageInfo(context.packageName, 0).versionCode
+
+            val label = packageManager.getApplicationLabel(context.applicationInfo)
+            val icon = packageManager.getApplicationIcon(context.applicationInfo)
+
+            val infoList = listOf(
+                "Version Name: $versionName",
+                "Version Code: $versionCode",
+                "Label: $label",
+                "Icon: ${icon.toString()}" // Note: Icon is a Drawable, so we convert it to a string
+            )
+
+            binding.textView.text = infoList.joinToString(separator = "\n")
+        }
+
+        return binding.root
     }
 }
